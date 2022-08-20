@@ -40,3 +40,15 @@
 .used {
   text-decoration: line-through;
 }
+
+.high-score, .medium-score, .low-score {
+  font-size: 20px;
+}
+
+.high-score {
+  color: green;
+}
+
+.low-score {
+  color: red;
+}

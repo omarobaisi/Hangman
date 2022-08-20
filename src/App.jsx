@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Score from "./components/Score";
 import Solution from "./components/Solution";
 import Letters from "./components/Letters";
+import EndGame from "./components/EndGame";
 
 class App extends Component {
   
@@ -10,8 +11,9 @@ class App extends Component {
     super();
     this.state = {
       letterStatus: {},
-      solution: {word: 'BYTES', hint: 'hhh'},
-      score: 5
+      solution: {word: 'HOME', hint: 'A place to stay in'},
+      score: 100,
+      gameEnded: false
     }
   }
 
@@ -29,11 +31,52 @@ class App extends Component {
     this.setState({
       letterStatus: alphapet
     })
-    // this.setState(
-    //   () => {
-    //     return { letterStatus: alphapet }
-    //   }
-    // )
+  }
+
+  selectLetter = letter => {
+    const letterStatus = JSON.parse(JSON.stringify(this.state.letterStatus));
+    letterStatus[letter] = true;
+    const increase = this.state.solution.word.includes(letter) ? 5 : -20
+    this.setState({
+      letterStatus: letterStatus,
+      score: this.state.score + increase
+    }, () => {
+      this.checkEnded();
+    })
+  }
+
+  checkEnded = () => {
+    this.outOfTime();
+    this.win();
+  }
+
+  outOfTime = () => {
+    if(this.state.score <= 0) {
+      this.setState({
+        gameEnded: this.state.solution.word
+      }) 
+    }
+  }
+
+  win = () => {
+    let ended = true;
+    [...this.state.solution.word].forEach(char => {
+      if(!this.state.letterStatus[char]) ended = false
+    })
+    if(ended) {
+      this.setState({
+        gameEnded: "Congratulations"
+      }) 
+    }
+  }
+
+  restartGame = () => {
+    const alphapet = this.generateLetterStatuses();
+    this.setState({
+      letterStatus: alphapet,
+      score: 100,
+      gameEnded: false
+    })
   }
 
   render() {
@@ -41,7 +84,8 @@ class App extends Component {
       <div className="App">
         <Score score={this.state.score}  />
         <Solution letterStatus={this.state.letterStatus} solution={this.state.solution} />
-        <Letters letterStatus={this.state.letterStatus} />
+        <Letters letterStatus={this.state.letterStatus} selectLetter={this.selectLetter} updateScore={this.updateScore} checkEnded={this.checkEnded} />
+        {this.state.gameEnded ? <EndGame message={this.state.gameEnded} restartGame={this.restartGame} /> : ''}
       </div>
     );
   }
