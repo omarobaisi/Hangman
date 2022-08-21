@@ -82,10 +82,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Score score={this.state.score}  />
-        <Solution letterStatus={this.state.letterStatus} solution={this.state.solution} />
-        <Letters letterStatus={this.state.letterStatus} selectLetter={this.selectLetter} updateScore={this.updateScore} checkEnded={this.checkEnded} />
-        {this.state.gameEnded ? <EndGame message={this.state.gameEnded} restartGame={this.restartGame} /> : ''}
+        {this.state.gameEnded ? (
+          <EndGame message={this.state.gameEnded} restartGame={this.restartGame} />
+        ) : (
+          [
+            <Score score={this.state.score}  />,
+            <Solution letterStatus={this.state.letterStatus} solution={this.state.solution} />,
+            <Letters letterStatus={this.state.letterStatus} selectLetter={this.selectLetter} updateScore={this.updateScore} checkEnded={this.checkEnded} />
+          ]
+        )}
       </div>
     );
   }
