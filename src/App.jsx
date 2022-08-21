@@ -88,7 +88,7 @@ class App extends Component {
           [
             <Score score={this.state.score}  />,
             <Solution letterStatus={this.state.letterStatus} solution={this.state.solution} />,
-            <Letters letterStatus={this.state.letterStatus} selectLetter={this.selectLetter} updateScore={this.updateScore} checkEnded={this.checkEnded} />
+            <Letters letterStatus={this.state.letterStatus} selectLetter={this.selectLetter} />
           ]
         )}
       </div>
