@@ -10,7 +10,7 @@ class Solution extends Component {
             <Letter letter={char} key={char} state={"character"} />
           ) : (
             <Letter
-              letter="_"
+              letter="_ "
               key={"underscore" + i}
               className={"underscore"}
             />

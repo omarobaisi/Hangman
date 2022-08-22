@@ -10,7 +10,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      letterStatus: {},
+      letterStatus: this.generateLetterStatuses(),
       solution: {word: 'HOME', hint: 'A place to stay in'},
       score: 100,
       gameEnded: false
@@ -26,17 +26,12 @@ class App extends Component {
     return alphapet
   }
 
-  componentDidMount() {
-    const alphapet = this.generateLetterStatuses();
-    this.setState({
-      letterStatus: alphapet
-    })
-  }
-
   selectLetter = letter => {
     const letterStatus = JSON.parse(JSON.stringify(this.state.letterStatus));
     letterStatus[letter] = true;
-    const increase = this.state.solution.word.includes(letter) ? 5 : -20
+    const right = 5;
+    const wrong = -20
+    const increase = this.state.solution.word.includes(letter) ? right : wrong
     this.setState({
       letterStatus: letterStatus,
       score: this.state.score + increase
